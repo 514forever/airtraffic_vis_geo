@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 ECharts 文件 -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/echarts.js"></script>
+    <script src="js/china.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div class="container">
+        <div id="relationview" class="mapview"></div>
+        <div id="depmapview" class="mapview"></div>
+        <div id="arrmapview" class="mapview"></div>
+    </div>
+
+    <hr align=center width=100% color=#987cb9 size=1>
+
+        <div>
+            <button class="echart1" onclick="flightCountFn(dataAxis_out,data_out,title_out)">流出视图</button>
+            <button class="echart2" onclick="flightCountFn(dataAxis_in,data_in,title_in)">流入视图</button>
+        </div>
+
+        <div id = "flightcount" class="flightcountchart"></div>
+
+
+
+    <script src="relation.js"></script>
+    <script src="city_od_from_sz.js"></script>
+    <script src="city_od_to_sz.js"></script>
+
+    <script type="text/javascript">
+        var dom = document.getElementById('flightcount');
+        var flightCountChart = echarts.init(dom, 'dark', {
+          renderer: 'canvas',
+          useDirtyRect: false
+        });
+        var app = {};
+
+        var flightCountOption;
+
+        let dataAxis_out = {{ Axis_data_out|tojson }}
+        let data_out = {{ value_data_out }}
+        let title_out = '深圳市流出其他城市航班数量'
+
+        let dataAxis_in = {{ Axis_data_in|tojson }}
+        let data_in = {{ value_data_in }}
+        let title_in = '其他城市流入深圳市航班数量'
+
+
+        let yMax = 150;
+        let dataShadow = [];
+        for (let i = 0; i < data_out.length; i++) {
+          dataShadow.push(yMax);
+        }
+
+        function  flightCountFn(x, y, title_text){
+            flightCountOption = {
+              title: {
+                text: title_text,
+                subtext: '点击或滑动缩放查看全部城市'
+              },
+              xAxis: {
+                data: x,
+                axisLabel: {
+                  inside: true,
+                  color: '#fff'
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLine: {
+                  show: false
+                },
+                z: 10
+              },
+              yAxis: {
+                axisLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  color: '#999'
+                }
+              },
+              dataZoom: [
+                {
+                    type: 'inside',
+                    start: 0,
+                    end: 15
+                }
+              ],
+              series: [
+                {
+                  type: 'bar',
+                  showBackground: true,
+                  itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: '#83bff6' },
+                      { offset: 0.5, color: '#188df0' },
+                      { offset: 1, color: '#188df0' }
+                    ])
+                  },
+                  emphasis: {
+                    itemStyle: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: '#2378f7' },
+                        { offset: 0.7, color: '#2378f7' },
+                        { offset: 1, color: '#83bff6' }
+                      ])
+                    }
+                  },
+                  data: y
+                }
+              ]
+            };
+            // Enable data zoom when user click bar.
+            const zoomSize = 6;
+            flightCountChart.on('click', function (params) {
+              console.log(x[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+              flightCountOption.dispatchAction({
+                type: 'dataZoom',
+                startValue: x[Math.max(params.dataIndex - zoomSize / 2, 0)],
+                endValue:
+                  x[Math.min(params.dataIndex + zoomSize / 2, y.length - 1)]
+              });
+            });
+
+                if (flightCountOption && typeof flightCountOption === 'object') {
+                  flightCountChart.setOption(flightCountOption);
+                }
+
+                window.addEventListener('resize', flightCountOption.resize);
+        }
+
+        flightCountFn(dataAxis_out, data_out, title_out)
+    </script>
+
+</body>
+
+</html>

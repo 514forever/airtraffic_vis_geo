@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="js/jquery.js"></script>
+    <script src="js/flight_csv_util.js"></script>
+
+    <!-- 引入 ECharts 文件 -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/echarts.js"></script>
+    <script src="js/china.js"></script>
+    <script src="js/bmap.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=efTAPRxFGdpKzu4jEFaTgpkFcGUfm5nk"></script>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section>
+        <div id="mian">
+
+        </div>
+    
+        <div id="postionMain">
+    
+        </div>
+
+        <div id="rwycount">
+
+        </div>
+    
+        <div class="filter">
+            <div class="filter_box">
+                <div class="shiduan">
+                    <div style="text-align: center; color: aqua;">时段</div>
+                    <div class="flex">
+                        <div>最小：</div>
+                        <div><input type="number" id="shiduanmin"></div>
+                    </div>
+                    <div class="flex">
+                        <div>最大：</div>
+                        <div><input type="number" id="shiduanmax"></div>
+                    </div>
+                    <div class="button">
+                        <button id="shiduan">确定</button>
+                    </div>
+                </div>
+
+                <div class="height">
+                    <div style="text-align: center; color: aqua;">速度</div>
+                    <div class="flex">
+                        <div>最小：</div>
+                        <div><input type="number" id="sdmin"></div>
+                    </div>
+                    <div class="flex">
+                        <div>最大：</div>
+                        <div><input type="number" id="sdmax"></div>
+                    </div>
+                    <div class="button">
+                        <button id="sd">确定</button>
+                    </div>
+                </div>
+
+                <div class="speed">
+                    <div style="text-align: center; color: aqua;">高度</div>
+                    <div class="flex">
+                        <div>最小：</div>
+                        <div><input type="number" id="gdmin"></div>
+                    </div>
+                    <div class="flex">
+                        <div>最大：</div>
+                        <div><input type="number" id="gdmax"></div>
+                    </div>
+                    <div class="button">
+                        <button id="gd">确定</button>
+                    </div>
+                </div>
+
+                <div class="flight">
+                    <div style="text-align: center; color: aqua;">航班号</div>
+                    <div id="title_airport"></div>
+                    <div class="ss" id="ss">
+                        <input type="text" id="ss2" placeholder="搜索航班号"/></div>
+                    <div class="airport" id="airportlist"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img src="./img/1.png" alt="" id="img1">
+            <img src="./img/2.png" alt="" id="img2">
+            <img src="./img/3.png" alt="" id="img3">
+        </div>
+    </section>
+    
+    <script type="text/javascript">
+
+        // 解析csv为json结构
+        // let flights_list = parse_csv('./record_aircraft_20220409_clean.csv');
+        // console.log(flights_list);
+
+        // let hour_count = parse_hour_count('./record_hour_count.csv');
+        // console.log(hour_count);
+        
+
+    </script>
+</body>
+<script src="js/index.js"></script>
+</html>
